@@ -1,0 +1,26 @@
+/* КОД. ФАЙЛ: src/shared/ui/Badge/Badge.module.css */
+
+.badge {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: white;
+  min-width: 60px;
+  text-align: center;
+}
+
+.active {
+  background-color: #28a745; /* Green */
+}
+
+.paused {
+  background-color: #ffc107; /* Yellow */
+  color: #333;
+}
+
+.archived {
+  background-color: #6c757d; /* Gray */
+}

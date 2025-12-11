@@ -1,0 +1,27 @@
+/* КОД. ФАЙЛ: src/features/campaign/ui/CampaignFilter/CampaignFilter.module.css */
+
+.filterContainer {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-radius: var(--border-radius-base);
+}
+
+.select,
+.input {
+  padding: 8px 12px;
+  border: 1px solid #ced4da;
+  border-radius: var(--border-radius-base);
+  font-size: 14px;
+}
+
+.select {
+  min-width: 150px;
+}
+
+.search {
+  flex-grow: 1;
+}

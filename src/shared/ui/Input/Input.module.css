@@ -1,0 +1,24 @@
+/* КОД. ФАЙЛ: src/shared/ui/Input/Input.module.css */
+
+.inputWrapper {
+  margin-bottom: 15px;
+}
+
+.input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: var(--border-radius-base);
+  box-sizing: border-box; /* Важно для padding */
+  font-size: 16px;
+}
+
+.inputError {
+  border-color: var(--color-error);
+}
+
+.errorMessage {
+  color: var(--color-error);
+  font-size: 12px;
+  margin-top: 5px;
+}

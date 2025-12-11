@@ -1,0 +1,49 @@
+/* КОД. ФАЙЛ: src/widgets/CampaignsTable/CampaignsTable.module.css */
+
+.tableContainer {
+  width: 100%;
+  overflow-x: auto;
+  background-color: white;
+  border-radius: var(--border-radius-base);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  margin-top: 20px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 800px;
+}
+
+.table th,
+.table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.table th {
+  background-color: #f8f9fa;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 14px;
+  color: #495057;
+}
+
+.budget {
+  font-weight: bold;
+}
+.sortable {
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.1s;
+}
+
+.sortable:hover {
+  background-color: #e9ecef;
+}
+
+.sortArrow {
+  display: inline-block;
+  width: 15px; /* Чтобы стрелка не прыгала */
+}

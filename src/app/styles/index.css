@@ -1,0 +1,18 @@
+/* КОД. ФАЙЛ: src/app/styles/index.css */
+/* Базовый сброс стилей и глобальные переменные */
+
+:root {
+  --color-primary: #007bff;
+  --color-error: #dc3545;
+  --color-text: #333;
+  --color-background: #f4f7f9;
+  --border-radius-base: 4px;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: var(--color-background);
+  color: var(--color-text);
+}
