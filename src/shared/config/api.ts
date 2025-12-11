@@ -7,5 +7,5 @@ export const API_ROUTES = {
   REGISTER: "/auth/register",
   CAMPAIGNS: "/campaigns",
   CREATIVES: "/creatives",
-  REPORTS: "/reports",
+  REPORTS: "/api/reports", // <-- НОВЫЙ МАРШРУТ
 };

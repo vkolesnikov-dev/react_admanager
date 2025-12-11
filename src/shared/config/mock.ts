@@ -2,6 +2,7 @@
 // Жестко закодированный JWT-токен для симуляции успешного входа.
 
 import type { Campaign } from "../../entities/compaign/model/types";
+import type { Creative } from "../../entities/creative/model/types";
 
 // Токен: { id: 1, email: "user@example.com" }
 export const MOCK_JWT_TOKEN =
@@ -49,3 +50,84 @@ export const MOCK_CAMPAIGNS: Campaign[] = [
     ownerId: 1,
   },
 ];
+export const MOCK_CREATIVES: Creative[] = [
+  {
+    id: 201,
+    campaignId: 101, // Новогодняя распродажа 2025
+    name: "Баннер 728x90: Главный слайд",
+    format: "IMAGE",
+    status: "APPROVED",
+    url: "http://example.com/creative/banner_728.jpg",
+    createdAt: "2025-11-20T10:00:00Z",
+  },
+  {
+    id: 202,
+    campaignId: 102, // Тест A/B
+    name: "Текстовое объявление: Ключевая фраза",
+    format: "TEXT",
+    status: "PENDING",
+    content: "Купите сейчас со скидкой 30%!",
+    createdAt: "2025-11-14T15:30:00Z",
+  },
+  {
+    id: 203,
+    campaignId: 101,
+    name: "Видео 15s: Праздничный ролик",
+    format: "VIDEO",
+    status: "REJECTED",
+    url: "http://example.com/creative/video_15s.mp4",
+    createdAt: "2025-11-22T08:00:00Z",
+  },
+];
+import {
+  type CampaignReport,
+  type GetReportParams,
+  type ReportRow,
+} from "../../entities/report/model/types"; // <-- НОВЫЙ ИМПОРТ
+
+// Функция для генерации отчетов в зависимости от дат
+export const generateMockReport = (params: GetReportParams): CampaignReport => {
+  // В реальной жизни здесь была бы сложная логика агрегации
+  const startDate = new Date(params.startDate);
+  const endDate = new Date(params.endDate);
+
+  const rows: ReportRow[] = [];
+  let currentDate = new Date(startDate);
+  let totalImpressions = 0;
+  let totalClicks = 0;
+  let totalCost = 0;
+
+  while (currentDate <= endDate) {
+    const dateString = currentDate.toISOString().substring(0, 10);
+
+    // Моделируем случайные, но реалистичные метрики
+    const impressions = Math.floor(Math.random() * 5000) + 1000;
+    const clicks = Math.floor(impressions * (Math.random() * 0.05 + 0.01)); // CTR от 1% до 6%
+    const cost = Math.floor(clicks * (Math.random() * 50 + 10)); // CPC от 10 до 60
+
+    totalImpressions += impressions;
+    totalClicks += clicks;
+    totalCost += cost;
+
+    rows.push({
+      date: dateString,
+      impressions,
+      clicks,
+      cost,
+      ctr: clicks / impressions,
+      cpc: clicks > 0 ? cost / clicks : 0,
+    });
+
+    currentDate.setDate(currentDate.getDate() + 1);
+  }
+
+  return {
+    reportName: params.campaignId
+      ? `Отчет по Кампании ID ${params.campaignId}`
+      : "Сводный отчет по всем кампаниям",
+    totalImpressions,
+    totalClicks,
+    totalCost,
+    rows,
+  };
+};

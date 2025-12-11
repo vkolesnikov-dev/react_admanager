@@ -12,7 +12,10 @@ import EditCampaignPage from "../../pages/campaigns/edit/ui";
 // Ленивая загрузка страниц (лучшая практика FSD/React)
 const LoginPage = lazy(() => import("../../pages/login/ui"));
 const CampaignsPage = lazy(() => import("../../pages/campaigns/ui"));
-const CreativesPage = () => <h1>Creatives Page Placeholder</h1>;
+const CreativesPage = lazy(() => import("../../pages/creatives/ui"));
+const CreateCreativePage = lazy(
+  () => import("../../pages/creatives/create/ui")
+);
 const ReportsPage = () => <h1>Reports Page Placeholder</h1>;
 
 // Компонент-обертка для ленивой загрузки
@@ -51,7 +54,11 @@ export const router = createBrowserRouter([
   },
   {
     path: "/creatives",
-    element: LazyRoute(CreativesPage),
+    element: <RequireAuth>{LazyRoute(CreativesPage)}</RequireAuth>,
+  },
+  {
+    path: "/creatives/create",
+    element: <RequireAuth>{LazyRoute(CreateCreativePage)}</RequireAuth>,
   },
   {
     path: "/reports",

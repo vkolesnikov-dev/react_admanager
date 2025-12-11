@@ -1,0 +1,46 @@
+/* КОД. ФАЙЛ: src/features/creative/ui/CreateCreativeForm/CreateCreativeForm.module.css */
+
+.formContainer {
+  max-width: 600px;
+  margin: 30px auto;
+  padding: 30px;
+  background-color: white;
+  border-radius: var(--border-radius-base);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.fieldGroup {
+  margin-bottom: 15px;
+  width: 100%;
+}
+
+.select,
+.textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: var(--border-radius-base);
+  box-sizing: border-box;
+  font-size: 16px;
+}
+
+.textarea {
+  resize: vertical;
+}
+
+.errorMessage {
+  color: var(--color-error);
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.submitButton {
+  margin-top: 20px;
+  width: 100%;
+}
+
+.generalError {
+  color: var(--color-error);
+  text-align: center;
+  margin-top: 15px;
+}

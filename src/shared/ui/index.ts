@@ -4,4 +4,6 @@
 export { Button } from "./Button/Button";
 export { Input } from "./Input/Input";
 export { Badge } from "./Badge/Badge";
+export { CreativePreview } from "./CreativePreview/CreativePreview";
+export { Modal } from "./Modal/Modal"; // <-- НОВЫЙ ЭКСПОРТ
 // Здесь будут экспортироваться другие UI-компоненты

@@ -4,13 +4,18 @@
 import { http, HttpResponse } from "msw";
 import { API_BASE_URL, API_ROUTES } from "../shared/config/api";
 import {
+  generateMockReport,
   MOCK_CAMPAIGNS,
+  MOCK_CREATIVES,
   MOCK_JWT_TOKEN,
   MOCK_USER,
 } from "../shared/config/mock";
 import type { LoginRequest } from "../entities/user/model/types";
 import type { Campaign } from "../entities/compaign/model/types";
-
+import {
+  type Creative,
+  type CreateCreativeRequest,
+} from "../entities/creative/model/types";
 const API_PREFIX = API_BASE_URL; // Префикс, который мы добавили в baseApi (http://localhost:8000/api)
 
 export const handlers = [
@@ -107,5 +112,84 @@ export const handlers = [
       return HttpResponse.json(updatedCampaign, { status: 200 });
     }
   ),
+  // 6. Хендлер для получения списка креативов
+  http.get(`${API_PREFIX}${API_ROUTES.CREATIVES}`, () => {
+    // В будущем здесь должна быть проверка авторизации
+    return HttpResponse.json(MOCK_CREATIVES, { status: 200 });
+  }),
+  // 7. Хендлер для получения одного креатива
+  http.get(`${API_PREFIX}${API_ROUTES.CREATIVES}/:id`, ({ params }) => {
+    const { id } = params;
+    const creativeId = Number(id);
+    const creative = MOCK_CREATIVES.find((c) => c.id === creativeId);
+
+    if (creative) {
+      return HttpResponse.json(creative, { status: 200 });
+    }
+    return HttpResponse.json(
+      { message: "Creative not found" },
+      { status: 404 }
+    );
+  }),
+  // 8. Хендлер для создания креатива (Mutation - POST)
+  http.post(`${API_PREFIX}${API_ROUTES.CREATIVES}`, async ({ request }) => {
+    // 1. Приведение типа: Ожидаем, что тело будет соответствовать CreateCreativeRequest
+    const newCreativeData = (await request.json()) as CreateCreativeRequest;
+
+    // 2. Проверка данных: Если данных нет или они не являются объектом, возвращаем ошибку
+    if (!newCreativeData || typeof newCreativeData !== "object") {
+      return HttpResponse.json(
+        { message: "Invalid request body" },
+        { status: 400 }
+      );
+    }
+
+    // 3. Расчет нового ID
+    const newId = Math.max(...MOCK_CREATIVES.map((c) => c.id)) + 1;
+
+    // 4. Создание объекта: Теперь TS не ругается, так как newCreativeData гарантированно является объектом
+    const createdCreative: Creative = {
+      ...newCreativeData,
+      id: newId,
+      status: "PENDING",
+      createdAt: new Date().toISOString().substring(0, 10),
+      // Убеждаемся, что content/url установлены, хотя для CreateCreativeRequest это должно быть корректно
+      url: newCreativeData.url,
+      content: newCreativeData.content,
+    }; // Приведение к Creative больше не требуется, так как мы явно создали объект типа Creative
+
+    // 5. Добавляем новый креатив в мок-массив
+    MOCK_CREATIVES.push(createdCreative);
+
+    // 6. Возвращаем созданный объект
+    return HttpResponse.json(createdCreative, { status: 201 });
+  }),
+  // 9. Хендлер для получения Отчетов
+  http.get(`${API_PREFIX}${API_ROUTES.REPORTS}`, ({ request }) => {
+    // 1. Извлекаем параметры из URL запроса
+    const url = new URL(request.url);
+    const startDate = url.searchParams.get("start_date");
+    const endDate = url.searchParams.get("end_date");
+    const campaignId = url.searchParams.get("campaign_id");
+
+    if (!startDate || !endDate) {
+      return HttpResponse.json(
+        { message: "Missing date parameters" },
+        { status: 400 }
+      );
+    }
+
+    const params = {
+      startDate,
+      endDate,
+      campaignId: campaignId ? Number(campaignId) : undefined,
+    };
+
+    // 2. Генерируем мок-отчет
+    const mockReport = generateMockReport(params);
+
+    // 3. Возвращаем отчет
+    return HttpResponse.json(mockReport, { status: 200 });
+  }),
   // Здесь будут добавляться другие хендлеры (campaigns, creatives)
 ];
