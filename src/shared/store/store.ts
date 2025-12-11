@@ -2,11 +2,13 @@
 
 import { configureStore } from "@reduxjs/toolkit";
 import { baseApi } from "../api/baseApi";
+import toastReducer from "../../shared/lib/toast/toastSlice"; // <-- НОВЫЙ ИМПОРТ
 
 export const store = configureStore({
   reducer: {
-    [baseApi.reducerPath]: baseApi.reducer, // Добавляем редюсер RTK Query
-    // Здесь позже будет reducerPath от RTK Query
+    [baseApi.reducerPath]: baseApi.reducer,
+    // ...
+    toast: toastReducer, // <-- НОВЫЙ РЕДЬЮСЕР
   },
   // Включаем middleware по умолчанию для работы с асинхронностью
   middleware: (getDefaultMiddleware) =>

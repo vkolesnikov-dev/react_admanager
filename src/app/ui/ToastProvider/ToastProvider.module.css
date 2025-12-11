@@ -1,0 +1,8 @@
+/* КОД. ФАЙЛ: src/app/ui/ToastProvider/ToastProvider.module.css (НОВЫЙ ФАЙЛ) */
+
+.toastContainer {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 2000; /* Высокий z-index, чтобы быть поверх всего */
+}

@@ -1,0 +1,14 @@
+/* КОД. ФАЙЛ: src/pages/Layout/Layout.module.css (НОВЫЙ ФАЙЛ) */
+
+.appWrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.mainContent {
+  flex-grow: 1; /* Контент занимает все доступное пространство */
+  padding-top: 20px;
+  padding-bottom: 50px;
+  background-color: #f4f7f9; /* Светлый фон для контента */
+}

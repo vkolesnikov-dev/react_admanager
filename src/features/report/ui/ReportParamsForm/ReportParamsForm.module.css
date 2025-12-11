@@ -1,0 +1,23 @@
+/* КОД. ФАЙЛ: src/features/report/ui/ReportParamsForm/ReportParamsForm.module.css */
+
+.formContainer {
+  padding: 20px;
+  background-color: var(--color-background-secondary);
+  border-radius: var(--border-radius-base);
+  margin-bottom: 25px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.inputGroup {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.inputGroup > div {
+  flex-basis: 33.3%;
+}
+
+.submitButton {
+  margin-left: 20px;
+}

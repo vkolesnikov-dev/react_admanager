@@ -8,6 +8,7 @@ import { LogoutButton } from "../../features/auth/ui/LogoutButton";
 import { RequireAuth } from "../../pages/RequireAuth/RequireAuth";
 import CreateCampaignPage from "../../pages/campaigns/create/ui";
 import EditCampaignPage from "../../pages/campaigns/edit/ui";
+import Layout from "../../pages/layout/Layout";
 
 // Ленивая загрузка страниц (лучшая практика FSD/React)
 const LoginPage = lazy(() => import("../../pages/login/ui"));
@@ -16,7 +17,7 @@ const CreativesPage = lazy(() => import("../../pages/creatives/ui"));
 const CreateCreativePage = lazy(
   () => import("../../pages/creatives/create/ui")
 );
-const ReportsPage = () => <h1>Reports Page Placeholder</h1>;
+const ReportsPage = lazy(() => import("../../pages/reports/ui"));
 
 // Компонент-обертка для ленивой загрузки
 const LazyRoute = (Component: React.ElementType) => (
@@ -27,10 +28,6 @@ const LazyRoute = (Component: React.ElementType) => (
 
 export const router = createBrowserRouter([
   {
-    path: "/",
-    element: LazyRoute(CampaignsPage),
-  },
-  {
     // ИСПОЛЬЗУЕМ РЕАЛЬНУЮ СТРАНИЦУ
     path: "/login",
     element: LazyRoute(LoginPage),
@@ -39,30 +36,40 @@ export const router = createBrowserRouter([
     path: "/registration",
     element: LazyRoute(() => <h1>Registration Page Placeholder</h1>),
   },
+
+  // 2. ЗАЩИЩЕННЫЕ РОУТЫ (Используют Layout, который включает RequireAuth)
   {
-    path: "/campaigns",
-    element: <RequireAuth>{LazyRoute(CampaignsPage)}</RequireAuth>,
-  },
-  {
-    path: "/campaigns/create",
-    // НОВЫЙ РОУТ: Создание кампании, также защищен
-    element: <RequireAuth>{LazyRoute(CreateCampaignPage)}</RequireAuth>,
-  },
-  {
-    path: "/campaigns/:id/edit", // НОВЫЙ РОУТ: Редактирование с параметром ID
-    element: <RequireAuth>{LazyRoute(EditCampaignPage)}</RequireAuth>,
-  },
-  {
-    path: "/creatives",
-    element: <RequireAuth>{LazyRoute(CreativesPage)}</RequireAuth>,
-  },
-  {
-    path: "/creatives/create",
-    element: <RequireAuth>{LazyRoute(CreateCreativePage)}</RequireAuth>,
-  },
-  {
-    path: "/reports",
-    element: LazyRoute(ReportsPage),
+    element: LazyRoute(Layout), // <-- Общий Layout для всех вложенных роутов
+    children: [
+      {
+        path: "/", // Главная страница
+        element: LazyRoute(CampaignsPage),
+      },
+      {
+        path: "/campaigns",
+        element: LazyRoute(CampaignsPage),
+      },
+      {
+        path: "/campaigns/create",
+        element: LazyRoute(CreateCampaignPage),
+      },
+      {
+        path: "/campaigns/:id/edit",
+        element: LazyRoute(EditCampaignPage),
+      },
+      {
+        path: "/creatives",
+        element: LazyRoute(CreativesPage),
+      },
+      {
+        path: "/creatives/create",
+        element: LazyRoute(CreateCreativePage),
+      },
+      {
+        path: "/reports", // <-- Маршрут отчетов
+        element: LazyRoute(ReportsPage),
+      },
+    ],
   },
   {
     path: "*",
